@@ -1,6 +1,8 @@
 #!/usr/bin/python
+import os
 import re
 import requests
+import stat
 
 common_url = 'https://mirror.tuna.tsinghua.edu.cn/ubuntu/pool/main/g/glibc/'
 # url = 'http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/'
@@ -17,7 +19,7 @@ common_list += get_list(common_url, 'i386')
 
 with open('list', 'w') as f:
     for l in sorted(set(common_list)):
-        f.write(l + '\n')
+        f.write('./download ' + l + '\n')
 
 print('[+] Common list has been save to "list"')
 
@@ -26,6 +28,9 @@ old_list += get_list(old_url, 'i386')
 
 with open('old_list', 'w') as f:
     for l in sorted(set(old_list)):
-        f.write(l + '\n')
+        f.write('./download_old ' + l + '\n')
 
 print('[+] Old-release list has been save to "old_list"')
+
+os.chmod('list', stat.S_IRWXU|stat.S_IRWXG|stat.S_IRWXO)
+os.chmod('old_list', stat.S_IRWXU|stat.S_IRWXG|stat.S_IRWXO)
